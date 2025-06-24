@@ -6,7 +6,7 @@
       to="/"
       class="text-xl font-semibold tracking-tight text-orange-500 hover:text-orange-600 transition-colors duration-150"
     >
-      time2move
+      🏋 time2move
     </router-link>
     <div class="flex gap-5">
       <router-link
