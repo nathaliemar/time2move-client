@@ -4,17 +4,24 @@
       <h1 class="text-xl font-semibold">Manage workouts</h1>
     </div>
     <div>
-      <p v-text="workouts"></p>
+      <WorkoutListItem
+        v-for="workout in workouts"
+        :key="workout.id"
+        :workout="workout"
+      />
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import WorkoutListItem from "../components/WorkoutListItem.vue";
 import { api } from "../services/api";
+import type { Workout } from "../types/models";
 
 export default {
   name: "WorkoutListPage",
-  data() {
+  components: { WorkoutListItem },
+  data(): { workouts: Workout[] } {
     return {
       workouts: [],
     };
