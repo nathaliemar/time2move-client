@@ -4,16 +4,21 @@
       <h1 class="text-xl font-semibold">Dashboard</h1>
     </div>
     <div>
-      <p v-text="sessions"></p>
+      <SessionList :sessions="sessions" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import { defineComponent } from "vue";
+import SessionList from "../components/SessionList.vue";
 import { api } from "../services/api";
 
-export default {
+export default defineComponent({
   name: "DashboardPage",
+  components: {
+    SessionList,
+  },
   data() {
     return {
       sessions: [],
@@ -32,5 +37,5 @@ export default {
       }
     },
   },
-};
+});
 </script>
