@@ -1,9 +1,9 @@
 <template>
-  <div class="p-4 border-b border-gray-200">
-    <div class="font-bold text-lg">
+  <div class="p-4 border rounded-xl border-gray-200 m-4">
+    <div class="font-semibold text-lg mb-0.5">
       {{ session.workout.name }}
     </div>
-    <div v-if="session.notes" class="text-gray-600 text-sm mb-1">
+    <div v-if="session.notes" class="text-gray-600 text-sm">
       ℹ️ <span class="opacity-80">{{ session.notes }}</span>
     </div>
     <div class="text-sm mt-1">📅 {{ formattedDate }}</div>

@@ -1,11 +1,9 @@
 <template>
   <div class="flex flex-col justify-center">
-    <div>
+    <div class="flex justify-center p-2">
       <h1 class="text-xl font-semibold">Dashboard</h1>
     </div>
-    <div>
-      <SessionList :sessions="sessions" />
-    </div>
+    <SessionList :sessions="sessions" />
   </div>
 </template>
 
@@ -30,7 +28,7 @@ export default defineComponent({
   methods: {
     async fetchAllSessions() {
       try {
-        const response = await api.get("/sessions");
+        const response = await api.get("/sessions/upcoming");
         this.sessions = response.data;
       } catch (error) {
         console.log(error);

@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="max-w-xl w-full mx-auto">
+    <h3 class="text-center">Your upcoming workouts</h3>
     <SessionListItem
       v-for="session in sessions"
       :key="session.id"
