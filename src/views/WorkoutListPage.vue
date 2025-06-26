@@ -6,7 +6,7 @@
     <div>
       <div class="flex justify-end mb-2">
         <button
-          class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded-xl"
+          class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded-xl cursor-pointer"
           @click="openModal()"
         >
           Add new workout type
@@ -24,7 +24,7 @@
     >
       <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative">
         <button
-          class="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+          class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 cursor-pointer"
           @click="closeModal"
         >
           &times;
@@ -66,7 +66,7 @@ export default {
       console.log(formData);
       try {
         await api.post("/workouts", formData);
-        this.showModal = false;
+        this.closeModal();
         this.fetchAllWorkouts();
       } catch (error) {
         console.log(error);

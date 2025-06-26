@@ -37,7 +37,7 @@
     </div>
     <button
       type="submit"
-      class="self-end bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition-colors"
+      class="self-end bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition-colors cursor-pointer"
     >
       Save
     </button>
