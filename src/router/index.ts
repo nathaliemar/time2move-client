@@ -11,6 +11,11 @@ const routes: Array<RouteRecordRaw> = [
     component: DashboardPage,
   },
   {
+    path: "/workouts/:workoutId",
+    name: "EditWorkoutModal",
+    component: WorkoutListPage,
+  },
+  {
     path: "/workouts",
     name: "WorkoutListPage",
     component: WorkoutListPage,

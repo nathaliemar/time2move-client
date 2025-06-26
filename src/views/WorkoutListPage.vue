@@ -16,15 +16,22 @@
         v-for="workout in workouts"
         :key="workout.id"
         :workout="workout"
+        @click="openEditModal(workout)"
       />
     </div>
     <BaseModal v-if="showModal" @close="closeModal">
-      <WorkoutForm @submit="handleNewWorkoutSubmit" />
+      <WorkoutForm
+        v-if="selectedWorkout"
+        :workout="selectedWorkout"
+        @submit="handleEditWorkoutSubmit"
+      />
+      <WorkoutForm v-else @submit="handleNewWorkoutSubmit" />
     </BaseModal>
   </div>
 </template>
 
 <script lang="ts">
+import type { RouteLocationNormalized } from "vue-router";
 import BaseModal from "../components/BaseModal.vue";
 import WorkoutForm from "../components/WorkoutForm.vue";
 import WorkoutListItem from "../components/WorkoutListItem.vue";
@@ -34,14 +41,41 @@ import type { Workout } from "../types/models";
 export default {
   name: "WorkoutListPage",
   components: { WorkoutListItem, WorkoutForm, BaseModal },
-  data(): { workouts: Workout[]; showModal: boolean } {
+  data(): {
+    workouts: Workout[];
+    showModal: boolean;
+    selectedWorkout: Workout | null;
+  } {
     return {
       workouts: [],
       showModal: false,
+      selectedWorkout: null,
     };
+  },
+
+  //watch route to open/close modal accordingly
+  //to = new route object, to is naming convention
+  watch: {
+    $route(to: RouteLocationNormalized) {
+      if (to.name === "EditWorkoutModal") {
+        const workoutId = to.params.workoutId;
+        this.selectedWorkout =
+          this.workouts.find((w) => w.id === workoutId) ?? null;
+        this.showModal = true;
+      } else {
+        this.showModal = false;
+        this.selectedWorkout = null;
+      }
+    },
   },
   mounted() {
     this.fetchAllWorkouts();
+    if (this.$route.name === "EditWorkoutModal") {
+      const workoutId = this.$route.params.workoutId;
+      this.selectedWorkout =
+        this.workouts.find((w) => w.id === workoutId) ?? null;
+      this.showModal = true;
+    }
   },
   methods: {
     async fetchAllWorkouts() {
@@ -62,11 +96,29 @@ export default {
         console.log(error);
       }
     },
+    async handleEditWorkoutSubmit(formData: object) {
+      if (!this.selectedWorkout) return;
+      try {
+        await api.put(`/workouts/${this.selectedWorkout.id}`, formData);
+        this.closeModal();
+        this.fetchAllWorkouts();
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
     openModal() {
       this.showModal = true;
     },
+    openEditModal(workout: Workout) {
+      this.selectedWorkout = workout;
+      this.showModal = true;
+      this.$router.push(`/workouts/${workout.id}`);
+    },
     closeModal() {
       this.showModal = false;
+      this.selectedWorkout = null;
+      this.$router.push("/workouts");
     },
   },
 };

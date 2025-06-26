@@ -1,5 +1,8 @@
 <template>
-  <li class="p-4 my-4 border rounded-xl border-gray-200 flex flex-col gap-1">
+  <div
+    class="p-4 my-4 border rounded-xl border-gray-200 flex flex-col gap-1 cursor-pointer"
+    @click="$emit('click')"
+  >
     <span class="font-semibold text-lg text-gray-800">{{ workout.name }}</span>
     <span v-if="workout.description" class="text-gray-600">{{
       workout.description
@@ -7,7 +10,7 @@
     <span v-if="workout.duration" class="text-sm text-gray-500"
       >Duration: {{ workout.duration }} min</span
     >
-  </li>
+  </div>
 </template>
 
 <script lang="ts">
@@ -23,5 +26,6 @@ export default defineComponent({
       required: true,
     },
   },
+  emits: ["click"],
 });
 </script>

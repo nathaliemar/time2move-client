@@ -45,17 +45,30 @@
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
+import type { Workout } from "../types/models";
 
 export default defineComponent({
   name: "WorkoutForm",
+  props: {
+    workout: {
+      type: Object as () => Workout | null,
+      default: null,
+    },
+  },
   //define which events the child can pass to parent:
   emits: ["submit"],
   data() {
     return {
-      name: "",
-      description: "",
-      duration: null,
+      name: this.workout ? this.workout.name : "",
+      description: this.workout ? this.workout.description : "",
+      duration: this.workout ? this.workout.duration : null,
     };
+  },
+  watch: {
+    workout: {
+      handler: "handleWorkoutPropChange",
+      immediate: true,
+    },
   },
   methods: {
     submitForm() {
@@ -69,6 +82,11 @@ export default defineComponent({
       this.name = "";
       this.description = "";
       this.duration = null;
+    },
+    handleWorkoutPropChange(newWorkout: Workout | null) {
+      this.name = newWorkout ? newWorkout.name : "";
+      this.description = newWorkout ? newWorkout.description : "";
+      this.duration = newWorkout ? newWorkout.duration : null;
     },
   },
 });
