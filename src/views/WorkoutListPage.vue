@@ -18,24 +18,14 @@
         :workout="workout"
       />
     </div>
-    <div
-      v-if="showModal"
-      class="fixed inset-0 flex items-center justify-center bg-black/10 backdrop-blur-sm z-50"
-    >
-      <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative">
-        <button
-          class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 cursor-pointer"
-          @click="closeModal"
-        >
-          &times;
-        </button>
-        <WorkoutForm @submit="handleNewWorkoutSubmit" />
-      </div>
-    </div>
+    <BaseModal v-if="showModal" @close="closeModal">
+      <WorkoutForm @submit="handleNewWorkoutSubmit" />
+    </BaseModal>
   </div>
 </template>
 
 <script lang="ts">
+import BaseModal from "../components/BaseModal.vue";
 import WorkoutForm from "../components/WorkoutForm.vue";
 import WorkoutListItem from "../components/WorkoutListItem.vue";
 import { api } from "../services/api";
@@ -43,7 +33,7 @@ import type { Workout } from "../types/models";
 
 export default {
   name: "WorkoutListPage",
-  components: { WorkoutListItem, WorkoutForm },
+  components: { WorkoutListItem, WorkoutForm, BaseModal },
   data(): { workouts: Workout[]; showModal: boolean } {
     return {
       workouts: [],
