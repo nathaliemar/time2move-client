@@ -31,6 +31,7 @@
 </template>
 
 <script lang="ts">
+import { defineComponent } from "vue";
 import type { RouteLocationNormalized } from "vue-router";
 import BaseModal from "../components/BaseModal.vue";
 import WorkoutForm from "../components/WorkoutForm.vue";
@@ -38,7 +39,7 @@ import WorkoutListItem from "../components/WorkoutListItem.vue";
 import { api } from "../services/api";
 import type { Workout } from "../types/models";
 
-export default {
+export default defineComponent({
   name: "WorkoutListPage",
   components: { WorkoutListItem, WorkoutForm, BaseModal },
   data(): {
@@ -87,7 +88,6 @@ export default {
       }
     },
     async handleNewWorkoutSubmit(formData: object) {
-      console.log(formData);
       try {
         await api.post("/workouts", formData);
         this.closeModal();
@@ -121,5 +121,5 @@ export default {
       this.$router.push("/workouts");
     },
   },
-};
+});
 </script>
