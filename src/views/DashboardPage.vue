@@ -26,6 +26,7 @@
         :session="selectedSession"
         :workouts="workouts"
         @submit="handleEditSessionSubmit"
+        @delete="handleDeleteSession"
       />
       <SessionForm
         v-else
@@ -116,6 +117,16 @@ export default defineComponent({
       if (!this.selectedSession) return;
       try {
         await api.put(`/sessions/${this.selectedSession.id}`, formData);
+        this.closeModal();
+        this.fetchAllSessions();
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async handleDeleteSession() {
+      if (!this.selectedSession) return;
+      try {
+        await api.delete(`/sessions/${this.selectedSession.id}`);
         this.closeModal();
         this.fetchAllSessions();
       } catch (error) {

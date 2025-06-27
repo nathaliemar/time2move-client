@@ -48,6 +48,14 @@
     >
       Save
     </button>
+    <button
+      v-if="session"
+      type="button"
+      class="self-end bg-red-500 text-white px-6 py-2 rounded hover:bg-red-600 transition-colors cursor-pointer mt-2"
+      @click="handleDelete"
+    >
+      Delete
+    </button>
   </form>
 </template>
 
@@ -55,7 +63,7 @@
 import { defineComponent } from "vue";
 import type { Workout } from "../types/models";
 
-//To display the date+time in the datepicker
+//To display the date+time in the datepicker (from Isostring)
 function toDatetimeLocal(dateStr: string): string {
   if (!dateStr) return "";
   const date = new Date(dateStr);
@@ -86,7 +94,7 @@ export default defineComponent({
       default: null,
     },
   },
-  emits: ["submit"],
+  emits: ["submit", "delete"],
   data() {
     return {
       notes: this.session ? this.session.notes : "",
@@ -112,6 +120,9 @@ export default defineComponent({
         workoutId: this.selectedWorkoutId,
       });
       //If time: Reset form properly
+    },
+    handleDelete() {
+      this.$emit("delete");
     },
   },
 });
