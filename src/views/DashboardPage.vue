@@ -76,6 +76,17 @@ export default defineComponent({
           this.sessions.find((s: Session) => s.id === sessionId) ?? null;
       }
     },
+    //watch Session changes
+    sessions: {
+      handler(newSessions) {
+        if (this.$route.name === "EditSessionModal") {
+          const sessionId = this.$route.params.sessionId;
+          this.selectedSession =
+            newSessions.find((s: Session) => s.id === sessionId) ?? null;
+        }
+      },
+      immediate: false,
+    },
   },
   mounted() {
     this.fetchAllSessions();

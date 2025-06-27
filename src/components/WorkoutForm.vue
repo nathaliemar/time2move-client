@@ -41,6 +41,14 @@
     >
       Save
     </button>
+    <button
+      v-if="workout"
+      type="button"
+      class="self-end bg-red-500 text-white px-6 py-2 rounded hover:bg-red-600 transition-colors cursor-pointer mt-2"
+      @click="handleDelete"
+    >
+      Delete
+    </button>
   </form>
 </template>
 <script lang="ts">
@@ -56,7 +64,7 @@ export default defineComponent({
     },
   },
   //define which events the child can pass to parent:
-  emits: ["submit"],
+  emits: ["submit", "delete"],
   data() {
     return {
       name: this.workout ? this.workout.name : "",
@@ -82,6 +90,9 @@ export default defineComponent({
       this.name = "";
       this.description = "";
       this.duration = null;
+    },
+    handleDelete() {
+      this.$emit("delete");
     },
     handleWorkoutPropChange(newWorkout: Workout | null) {
       this.name = newWorkout ? newWorkout.name : "";

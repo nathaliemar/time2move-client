@@ -24,6 +24,7 @@
         v-if="selectedWorkout"
         :workout="selectedWorkout"
         @submit="handleEditWorkoutSubmit"
+        @delete="handleDeleteWorkout"
       />
       <WorkoutForm v-else @submit="handleNewWorkoutSubmit" />
     </BaseModal>
@@ -57,6 +58,7 @@ export default defineComponent({
   //watch route to open/close modal accordingly
   //to = new route object, to is naming convention
   watch: {
+    //Watch route changes (edit vs. add)
     $route(to: RouteLocationNormalized) {
       if (to.name === "EditWorkoutModal") {
         const workoutId = to.params.workoutId;
@@ -67,6 +69,18 @@ export default defineComponent({
         this.showModal = false;
         this.selectedWorkout = null;
       }
+    },
+    //If someone comes to a specific workout via URL, ensure the right details are shown
+    workouts: {
+      //Watch workout changes (to display right data)
+      handler(newWorkouts) {
+        if (this.$route.name === "EditWorkoutModal") {
+          const workoutId = this.$route.params.workoutId;
+          this.selectedWorkout =
+            newWorkouts.find((w: Workout) => w.id === workoutId) ?? null;
+        }
+      },
+      immediate: false,
     },
   },
   mounted() {
@@ -100,6 +114,16 @@ export default defineComponent({
       if (!this.selectedWorkout) return;
       try {
         await api.put(`/workouts/${this.selectedWorkout.id}`, formData);
+        this.closeModal();
+        this.fetchAllWorkouts();
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async handleDeleteWorkout() {
+      if (!this.selectedWorkout) return;
+      try {
+        await api.delete(`/workouts/${this.selectedWorkout.id}`);
         this.closeModal();
         this.fetchAllWorkouts();
       } catch (error) {
