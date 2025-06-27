@@ -60,7 +60,7 @@ export default {
       if (to.name === "EditWorkoutModal") {
         const workoutId = to.params.workoutId;
         this.selectedWorkout =
-          this.workouts.find((w) => w.id === workoutId) ?? null;
+          this.workouts.find((w: Workout) => w.id === workoutId) ?? null;
         this.showModal = true;
       } else {
         this.showModal = false;
@@ -73,7 +73,7 @@ export default {
     if (this.$route.name === "EditWorkoutModal") {
       const workoutId = this.$route.params.workoutId;
       this.selectedWorkout =
-        this.workouts.find((w) => w.id === workoutId) ?? null;
+        this.workouts.find((w: Workout) => w.id === workoutId) ?? null;
       this.showModal = true;
     }
   },
